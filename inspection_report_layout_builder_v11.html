@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cosito - Inspection Report Layout · v8</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#171a1f;--muted:#6b7280;--line:#e5e7eb;--brand:#5b3df5;--brand2:#efeaff;--green:#0c7044;--soft:#f9fafb;--shadow:0 8px 30px rgba(20,20,40,.08)}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.app{display:grid;grid-template-columns:390px 1fr;min-height:100vh}.side{background:#fff;border-right:1px solid var(--line);padding:26px 22px;overflow:auto}.brand{font-weight:800;font-size:20px;margin-bottom:26px}.brand span{color:var(--brand)}
+h1{font-size:22px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.45;margin-bottom:22px}.label{font-size:12px;font-weight:700;margin:18px 0 7px;display:block}.select{width:100%;padding:11px 12px;border:1px solid #d8dbe1;border-radius:9px;background:#fff;font-size:14px}.section-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}.card{border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff}.card.dragging{opacity:.45}.drag{cursor:grab;color:#9ca3af;font-size:16px;margin-right:7px;user-select:none}.namewrap{display:flex;align-items:center}.locked{margin-top:8px;padding:8px 9px;border-radius:8px;background:#eef8f2;color:#17603e;font-size:11px;font-weight:700}.placement{margin-top:8px;padding:8px;background:var(--soft);border-radius:8px}.placement label{display:flex;gap:7px;align-items:flex-start!important;margin:5px 0!important}.inline-photos{margin-top:8px}.inline-photos .photo-grid{grid-template-columns:repeat(2,1fr)}.card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.name{font-weight:700;font-size:13px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.mini{border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12px;background:var(--soft)}.mini label{display:flex;gap:6px;align-items:center}.ai{margin-top:9px;background:var(--brand2);border-radius:8px;padding:8px 9px;font-size:12px;display:flex;align-items:center;justify-content:space-between}.switch{width:36px;height:20px;flex:0 0 auto;border-radius:20px;background:#d4d4d8;position:relative;cursor:pointer}.switch:after{content:"";width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;box-shadow:0 1px 4px #999;transition:.2s}.switch.on{background:var(--brand)}.switch.on:after{left:18px}.section-toggle{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#555}.field-photo{grid-column:1/-1;padding:8px!important;background:#f7faf8!important;border-top:1px solid #e7ece9}.field-photo .photo{max-width:100%;border:1px solid #dfe4e1}.field-photo .photo{max-width:240px;margin:8px auto}.field-photo .photo-img{height:auto;aspect-ratio:3/4}.photos{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.photos label{display:flex;align-items:center;gap:8px;font-size:12px;margin:6px 0}.actions{display:flex;gap:9px;margin-top:20px}.btn{flex:1;padding:11px;border-radius:9px;border:0;font-weight:700;cursor:pointer}.primary{background:var(--brand);color:#fff}.secondary{background:#f0f1f3;color:#333}.main{padding:28px 34px;overflow:auto}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.topbar h2{margin:0;font-size:18px}.pill{font-size:12px;color:#4b5563;background:#fff;border:1px solid var(--line);padding:7px 10px;border-radius:20px}.paper{width:min(1120px,100%);min-height:780px;background:#fff;margin:auto;box-shadow:var(--shadow);border-radius:6px;padding:28px 32px 34px}.report-head{display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--green);padding:13px 15px}.report-head.boxed-header{border:2px solid var(--green);border-bottom-width:5px;border-radius:2px}.report-head.simple-header{border:0;border-bottom:4px solid var(--green);padding:0 0 13px}.report-head.no-header{display:none}.logo{font-size:28px;font-weight:900}.logo small{display:block;font-size:9px;letter-spacing:2px;color:var(--green)}.report-title{text-align:right}.report-title b{font-size:20px}.report-title div{font-size:12px;color:#555;margin-top:4px}.summary{margin:15px 0;padding:12px 14px;background:#f3f8f5;border-left:4px solid var(--green);font-size:12px;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;align-items:start}.report-section{break-inside:avoid;min-width:0;width:100%;grid-column:span 6;transition:all .15s ease}.report-section.full{grid-column:1 / -1!important;width:100%!important}.report-section.half{grid-column:span 6!important;width:100%!important}.section-title{background:var(--green);color:#fff;font-weight:800;font-size:12px;padding:6px 8px;margin:10px 0 0}.table{border:1px solid #dce3df;border-top:0}.row{display:grid;grid-template-columns:1.5fr 1fr;font-size:11px;border-top:1px solid #e7ece9}.row:first-child{border-top:0}.row span{padding:6px 7px}.row span:last-child{font-weight:650;background:#fbfcfb}.ai-text{font-size:11px;line-height:1.45;margin:7px 2px 2px;color:#333}.ai-badge{font-size:9px;font-weight:800;color:var(--brand);background:var(--brand2);padding:2px 5px;border-radius:4px;margin-right:5px}.photos-preview{margin-top:18px}.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:14px;justify-content:center}.photo{border:1px solid #dfe4e1;border-radius:3px;overflow:hidden;background:#fff}.photo-img{height:auto;aspect-ratio:3/4;background:linear-gradient(135deg,#d9ddd9,#f4f4ef);display:flex;align-items:center;justify-content:center;color:#7b817e;font-size:12px}.photo-cap{padding:7px;font-size:10px;line-height:1.35}.photo-cap b{display:block;color:var(--green);margin-bottom:3px}.hidden{display:none!important}.full{grid-column:1/-1!important}.half{grid-column:span 6!important}.note{font-size:11px;color:#777;margin-top:8px}@media(max-width:900px){.app{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--line)}.grid{grid-template-columns:1fr}.report-section,.report-section.half,.report-section.full{grid-column:1/-1!important}.photo-grid{grid-template-columns:1fr 1fr}}
+
+/* v7 document-control headers: separate from the report title */
+.format-heading{font-size:22px;font-weight:800;margin:0 0 16px;color:#1e2433}
+.document-header{display:flex;width:100%;margin-bottom:22px;color:#222941;font-size:clamp(8px,1vw,12px);border:1px solid #222941}
+.header-logo{width:10%;min-width:85px;display:flex;align-items:center;justify-content:center;padding:6px;border-right:1px solid #222941;background:white}
+.header-logo img{display:block;width:100%;max-width:150px;height:auto;object-fit:contain}
+.header-fields{flex:1;min-width:0}
+.header-line{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));min-height:40px;border-bottom:1px solid #222941}
+.header-line:last-child{border-bottom:0}
+.header-line>div{padding:9px 10px;display:flex;align-items:center;min-width:0;overflow-wrap:anywhere;border-right:1px solid #222941}
+.header-line>div:last-child{border-right:0}
+.hlabel{font-weight:800;background:#f2f0eb}.hvalue{font-weight:500}
+.document-header.compact .header-line{min-height:31px}.document-header.compact .header-line>div{padding:6px 8px}.document-header.compact .header-logo{width:14%}
+.document-header.minimal .header-line{min-height:35px}.document-header.minimal .header-line>div{padding:8px 9px}
+.document-header.none{display:none}
+@media(max-width:750px){.document-header{font-size:8px}.header-logo{min-width:55px;padding:3px}.header-line>div{padding:5px 4px}}
+
+/* All header choices use exactly the same approved palette. */
+.document-header,.document-header.compact,.document-header.minimal{border-color:#222941!important;color:#222941!important}
+.document-header .header-line,.document-header.compact .header-line,.document-header.minimal .header-line,.document-header .header-line>div,.document-header.compact .header-line>div,.document-header.minimal .header-line>div,.document-header .header-logo{border-color:#222941!important}
+.document-header .hlabel,.document-header.compact .hlabel,.document-header.minimal .hlabel{background:#f2f0eb!important}
+.field-photo{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;padding:12px;background:#fafafa;grid-column:1/-1}
+.field-photo .photo{min-width:0}
+.empty-cell{min-height:19px;background:#fff!important}.photos-preview .photo-grid{justify-content:center!important;margin-inline:auto}.photos-preview .photo{width:100%;max-width:220px}@media(max-width:650px){.photos-preview .photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand">cosito<span>.ai</span></div>
+  <h1>Inspection Report Layout</h1>
+  <div class="sub">Configure how a report is presented. The inspection form and its sections already come from Cosito; this only controls the report layout and where AI may add narrative.</div>
+
+  <label class="label">Inspection format</label>
+  <select class="select" id="format">
+    <option>Receiving Format</option>
+    <option>Warehouse Quality Inspection</option>
+    <option>Movement Inspection</option>
+  </select>
+
+  <label class="label">Select header</label>
+  <select class="select" id="headerSelect">
+    <option value="original">Header 1 · Quality document control</option>
+    <option value="compact">Header 2 · Compact document control</option>
+    <option value="minimal">Header 3 · Simple document control</option>
+    <option value="none">No header</option>
+  </select>
+
+  <label class="label">Report sections</label>
+  <div class="section-list" id="sections"></div>
+
+  <div class="card photos">
+    <div class="card-head"><div class="name">Photo Record</div><input type="checkbox" id="photos" checked></div>
+    <label><input type="checkbox" id="photoAI" checked> Generate AI visual description for each photo</label>
+    <div class="locked">✓ Recorded inspection data is always included in every photo caption</div>
+    <div class="placement">
+      <div class="label" style="margin:0 0 5px">Photo placement</div>
+      <label><input type="radio" name="photoPlacement" value="end" checked> At the end of the report</label>
+      <label><input type="radio" name="photoPlacement" value="section"> At the exact field where the photo was captured</label>
+    </div>
+    <div class="note">Warehouse example: each Product has a Photos image field, supporting any number of captured photos (examples show 1, 3, 2, and 4). When field placement is selected, all photos captured for the same field (for example, five Decay photos) appear together directly below that exact field. AI may describe visible evidence. Recorded values always come directly from the inspection and cannot be disabled.</div>
+  </div>
+
+  <div class="actions"><button class="btn secondary" id="reset">Reset</button><button class="btn primary" id="save">Save layout</button></div>
+</aside>
+
+<main class="main">
+  <div class="topbar"><h2>Live preview</h2><div class="pill" id="previewFormat">Receiving Format</div></div>
+  <div class="paper">
+    <h1 class="format-heading" id="reportName">Receiving Format</h1>
+    <div class="document-header original" id="reportHeader">
+      <div class="header-logo"><img alt="Latin Specialties logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACMCAIAAACFyG66AAAjWklEQVR4nO2deXwcxZn3n6runu65JY3u25csS7Lwje0YG2xsfGAwC0tISICEkIMlx25e8tnkfXPfeROS9w1ZdgmwccJpCCbGBgzGJ74PyZIsWbLuWyNp7rOPqv1jZI0sjebQYSuhv3/o89FMTfXTVb+ueqrqqWpEKQUVFQAAwDfaAJUZhKoGlTCqGlTCqGpQCaOqQSWMqgaVMKoaVMKoalAJo6pBJYyqBpUwqhpUwqhqUAmjqkEljKoGlTCqGlTCqGpQCaOqQSWMqgaVMKoaVMKoalAJo6pBJYyqBpUwqhpUwqhqUAmjqkEljKoGlTCqGlTCqGpQCaOqQSWMqgaVMKoaVMKoalAJo6pBJYyqBpUwqhpUwqhqUAmjqkEljKoGlTBs9K8JIYFAwO/zEUWJ8DVCDMsajUaO46bFuhsHvQpCCOOpeWZCuU1JVtNEDDX09vTsfOGFgx8c8Pt9Eb6mkGxJeeQLX9hx773MFBXZDYdSGggE+q3Wrs5Ot8uVkZlZXFLC8/xk8lQU2SXafKJL4PQmjYVjNVNl7dQSQw11tbWvv/pqX1/feAlaWltcDueqT6zOzs6ZatuuK5RSn8830D/Q3t5WW1Nz9vSZy7WXHHZHUVHRz3796/kLiif8WPtFb5Oz4oJ936DYYuayyoy3F6esNAmWqbV/SoihBqfD0W+1Rk/T29vT0tzyd6oGSqkkSQMDA40NV2qqq6ovVlVXXezq6JAkmQIFgMrKyosXK4uK509MDZIs1tlOHBj8Q7d8gFAvUtgO6ZyfPL4i/S6tRj/VdzNZYqiBUkpiHT1MKZVleepMun4QQnt7ej784P2Tx4831Nf3dve43S5FUeg1aYjD4ZjY+cuU0j5v23nnW73ycUK8AECpbKcX673HioKr/v7U8I+NzTb4sx/+4MTxE7bBQUmWxktGCJlY/qIcrHedbAwclulA6BMKAIhijDGaiW7Wx1oNba2tB/a/7/Z6oiebsMdg9/c1u88GoAGutiwMNmayaxfqtqYIGRPLc1r5WKvB5/OJkhgz2cTUoCiK1d/aI1dTIgMABWAY7XzmM3dnfSsruWBmDjU/1mqYVmQqDogdbtIJABSAZdKWar58Z97Xk/QzcTQRYib2XtcNQkhM9xAhNLHnWCaSU+wVoY8CYMwVMfdtyf2XmSwF+Ji3DXGOFCbYUxDJI9op8iCAJLRiXerDFsNM9BVGMhPVEJoShkk8l/FfKJ5kE7MBAcKIBcAsSlvAby5IXjCBTOIndC+hye8JF9pMUQOl1OFwdHV2DQ70Ox1On8+ryLJWp7NYLPmFhbl5eVGWQoLBoNfrVUaspGCMdTqdIAjRyyXOOYSJFS3HarN0RfrgohRm9qKUTQIb7+zCKI1GvwVCqN1ua2tpGRwYcLvdsiLzvJBkTrKkpubm5yUlJSVk8w1WgyzLVqv1YmXl6eMnLtfV2QYHvV5PIBCQZZlSyrKsIAhpaemlCxfesW3r0mXL9Hr9qNJpbmp68U87L9VUj5wBQwilZ2Tcc999t6xbJwjCuJePt22YiHelYfglaZuy9HO02JBlnMNgJkpiSml/f//777138fwFMRgc1ilmcG5+/ta7ts8vLh61eBYMBq80NBzY//7Z06d6uru9Xq8oipRShmF4XjDoDanpaYsWL7p1w4YFpaUGgyGeBuOGqYEQ0tPT8+7evfv2vH25rtbv9yuyPNTajUiGADra2y9WVhzYv//OHTse+vzn8vMLMB66MVmWjx4+8vprrznstlEVixFua2mdO2/erNmzhz+klNrt9prq6t6eHqC0rrY25swSIUplxQXda7pwWSKUkZFRvmhRcnJylCLGCJu1qWbBEurxol/F5/P97c03//Db342e90TAawRrX983nvxfWdnZw3cx0D/w5uuv73rlldbWFlEUKSGjCg0AoTp08sTxXa+8umHTxgcffnhBSSnHxajuG6AGQojdZnt3376dz79Qf7lOiVofNDQ7Lstd3V3P/ed/njt9+n//8AdLly1jWRYAuru6Tp844XTYx06fK1Spr7/c2dlZUFg4/FS1tbX935/97L1974iiCABAKYnVXciKsnvX67tff2Pkhyxm1m247Te//73FMnqMQCkFWQZZQooClCKMKcNShgGGQeMv87qcziMHDw0MDoy1RvZ7jx09uuGOTekZGQzDEEIaGhp+/qMfHT14SJKliNbTIUOoKIo9vT0v/+XFo4cOPfKFx+69/35LqiWKNK+3GsSgWF118dlnnjl6+LDb5Upo9l8hSsWF8//nW9968jvfuW3DBoxxS3NzXV3teHqilI4Ky6ivq6u8UBEMBhK6LgE6qk8RFXLk0OHm5qZRaqCyrHS0KyePk9OntT3dSFIUk9Gfn6+ZPx+V34TnFjE63Ti3RvwB/3gG9Pb2NDc23bJ2HS/wFRcu/OJHPz5z6pRMIkWcRLSfkvaOjv/31FOdnR2PfOHRWbNmjxexcV3VYLfbD3344R//45ma6qqYi2ERIZTW1db+8qc/5TjNshXLG+rru7u64v+51+v1+bxT8gJQWZLsNvvIT6goksoL6M87+f2HwOkFAgDAIDAAgF6Qy+fL99wDGzcxuXmJXksMileuNLjdro4Ox69+8pPTJ08qNOGlE5fTsevll31e79e/+c28/PyILcR1UgOl1G6zvfryy//9x+d6ursmUx8UoOHy5d/+8ldP/Ns3Lpw75/N6EzJjCl8GOzIvSqlyuY7547Pog6PgCV5jLgB4AuyJi7iukbS2kEcfQ3l5CXqmtOnKlZaWltdeeunUyVMTkELIEK/Xu/uNNwRB+81vPZmSmjo2zXWai3Q5nX/dtWvn88/39HRPvjoIpTU1VU//7nfnzpyZIW/6JU4nOvABnDgH3nEXPrDdy/x1j/Lyi9LAYEKZU4DOjs7XXn75wP73ZWXiwQMUICiKb76+641du4LBCHZeDzX4/f739r3z4p92dnd3T9WzGRTFyoqK3t7eKcltklBCSEM9PXEC9Tujj1qR1cHsew8fPKAEg1GSjWWg3/runrftdnvspLFwud1/+dPOc2dOj/1q2tVACL1YUfHin3e2trZMOFAgIoqiTG2GE0cU2frL+HIjxLSHUNzajQ4dpO1tCV1BkmWXx00m1EeMpaO97eUXX/L7R/ut064Gu21w7+63Ll6okCNGXf9DILuc/rpabHXEldovwtkKXFN9A99nL8lyxbmz58+eHWXD9HqRoigePnhw79tvx+P4IECchtPpdElms9FkYlnW7/c7HU6Px+MP+BVZnnzhYYzxVC18jIis5zwetqsrzplNAGA6+8XKCrhlrSY1bTImYIQYhmFZFgFIipJQY9nf33/g/fcXLVliMBiGP5xeNQwODu7b8/bg4EDMlBjh/IL8ZStuXvWJ1WXl5SazmcFYluX+/v7zZ86eOXWyuqqqt7dXmVwDY05KMiclWa1WGu8axbjo9Lr0tPShf4IB5HInkCWhbHMLtVqpJXXCS2I6na6gsHDuvHlZOdksy/b3WdtaWxsbrzjs9ugTeiEC/kDdpUu9PT1z580b/nB61XDuzJlzZ87EnFrQCsKyFTd/5uGHVq+5JcWSMvKrgsLCJUuXbt9x9+GDB9/6618rKyq8iQwpRzG/uHjTls0sy7jdbgoQCAQG+/ujG4cAkpKT9SMeIASg1eluXrWqYFYhhMaW/gDj8yVQq5TKXT1g7cNF84FNuAowxrm5uRs2bbpj69bSsrKkpCSMsc/na21pOXr4yPvvvFNdddE3xicYYwLp6ui8Ut8wZ+7cYUVOoxpkWd771t8csdxgjuU2bdn6+Ne/VlpaGvFBwRhn5+Tcd/8ni+bPf+HZP36wf78v4lafOMjOzv78Y4+tXrPG4XAA0Jrqmmf/8IfoDg3DMJu2bL1l3dph2xBCRqOxpLTUZDJBSA2iiIJStFWpMbCDNmyzxfY6x4AAcnNzv/LVr265887U1HDTotPpSkpLZ8+Zs2jx4j8+8x9HDh2OMrkJABTA4bC3NDcHg8Hhhb1pVENfX9/J48ejewwMxstvvvlLj3+lpKQkepup4TWLlix54l+/YbPbThw9NrEZGIRQRmZmekZGqH/V6vTPPfMMRFUDxkzpwrJt27czTLi6r9mORwEUJdF6xS4vdTlBURLtJ/QGw2cfeeSe++4zGo1jvxUEYdmK5QBfGbTZLpw7F71jDQQCPd1dXo9nWA3TOKY4duRIzIYhLSPjwYcfKi4piWevI8uyxQsWPP7Vr+XmJTy5OxKEEMMwDMPEucFyOP0wEX6YqB8SkESXmyS4DwUB3L5x0wMPPhhRCiFYll2ybNn9n/qU0TBumhCSJNtt9pHjzOlSgyRJZ0+djtkw3Lxy5dJly+Lf5YgxXrl61ba778ITjEGZCDGGgggAY2ASLEmJKIEgTbBFEQTh0w89lDJm4XQUGo3mtvXrZ49Yyo8IIYrP75Ok8EaS6VKD0+lsbGiInsaclLR8xc2pCY6yNBrNJx98MG3Yn58E8W6+jhlJy3GIS8htAJhQgF1h4azikrgi6pJTUorLSqOnIZRKkjRyUDpdavC43dZY08YZmZlzi+bxQsLbn3NycpavWjlDNiQghFiNBmsS3HbNYkbQoARblNS0NE18F2IY1mQ2x0537TredKnB7/e7XK4oCRCg1NTU1LS0CZyOIAhC6cKyqTpWYZIghLCGg0TVILCcXo+jhseNhWHZ+FuUCbQ901WggUBgKL5ofAxG48iJsPhBCOXk5s0QNQAAMCwkeMAD1WuR0YiYhPuXaWW6CpQSQmMNAlmWZROfewkhCAKatCMZ59MTe7jAMMBrEjJHNhslg5HOHEEDwPSpgWU5HEv4oiiK0rg7o6PjdrsmP7scJzGXlwiDJT6xngJZkiHFAh+TtkEQBEHQRk/jcrrcUX2L8aCUtre2Xb/l7FiqI5iRE/IbEGKzMtmoAas3hGlTg1YwR/VpKdD+fqu1r28Clerz+S5VV8WzNnN9oAxDuETUgFEgO1tMSoaPiRrMSUnZubnR01j7+uou1SYU2Bii/vLlc6cihO7cKAhCNJFT8WiKkZ87j01Knj6TJsZ0qUFvMCwoLY2ufI/bc/LE8e6uroTiPtwu11927nS6J9LFTARKY3YVCOMoeyXGpEbKrDylcBYzw5wGmEYvkmHWrFvLMNGGDISSC+fPHzp4MP5F6mAw+M7evYfe/2BKHMh4um0az+ZdGu8mPgAArQbPL0IFhfGmv45M4whn2fLl2bk50cvb5XC++uJLxw4fiTk5AQBer/fQhx8++8wz8YTPTCEx6xkRBeIeHJFUs1JeTtMmFfU0TUyjGkwm063r10efbqNAmxqv/P53v927Z48kRVvQc9jte3bv/v1TTzVeuTKxnTnTB1IUHAzElZTBeHY+WracmdxxpNPENMY3YIy33XXXgf37u7u7oyRTCKmpqvrFj3985uTJez/5yQUlJaMmKO12+/mzZ/e+9bePjh3tt1pnYLQtK4pMfJFwNMmgrFmD5syZaWPLENMbCVdaVrb2tttef+WV6KNBhZCurq7XX331o2PHFpSUlC0sz83P0/C8y+lsa26pvnixqamx39ofz4ld1x9KKHE5cXwbZmhBtrxlm6CNvBvzhjO9ajCZTNt37Dh5/Hhba2vMxIFgsKW5ubW5+b29+wAB0KGt59PXL2CMJ/+MUqKINjvncMcuSoEV79khzC+e5BWnj+mdJ2cYZsnSpf/8wAN6fdwnmwAQoITSob/T6SJMSXONZJnr7UFOd4x0gka6/278wKcmf8XpY9pXTYxG4x1btq5Zu07gxz9jZYYTXZGiSJsaGWfUI0hZRlq3HD3+L5rklGjJbjTTrgaE0LyieQ997pFFSxZz7N/layyit0/E7SYVFRAcd0BENay8vFT50pfx7DnTYN1Ucj127HMct3L16mAg+Fv3r2pra5W4j6EYDwTAcpwsRT7Z5LpCqdjSpK1rHDcBg+lN8+HRR/kVKxOYr7xBXCf7BEFYd9tt33jyybKFZZPsqxFAamrqfQ88MBNemENkmTt7Bpzj7O/ACEpn44c/y6zfgGbkBMMorp9aBa2wfuPtP//1bzZu3qKZaEUigOycnG9/73tPfO3rRfPn3/AxO3G7pfPnQYo0fmYYWjYXvvgY3bodGU0zbbkyIlOjhjidc41GU77opl/85tdf+PJX0tPSE90gixHKzMr6zve+v+PeezOzMtffvjF28xD1EnGaHe3YLI+Hb22PMHmNsVw6S/zaE3T7DmSKLQU0/OeGEkMNvIbXa7VRzEQAgqBNTonXVUYIZWRkPPntf3/62f/avG1bSkoKx3ExawUhJPD80qXLfvnUU1u338nzPMdxK1avSs/MjGKYQa83mUxRMjebzVysKBUNx1ks44elIEQZHK5shKiGBYtB2bJG/NUvuO13I31cE00sx1lSUqIf/4MxTklJiTNmGiHQabXRnzeMMS8II4MRY3iRs+fNXbt+fcX586IkjR1oIYT0Ot3GzVuKixObUdFoNKvXrClduPDs6dMH9u+/WFHZ29vjcbklWSKUwlBUNwWEMEKCIOTk5t12+4b7H3hgblFRyHqGYcrKyrZuu3Pf23sCgcDY81f1ev3GzZvz8iIfdxUiLz9/2/a7Pjp6ZGwOMCRBYdGSJStXrRovIle2WMS77+LhbfB6AWFkMpJZhbBhPd14hzaR/ddms3nztm3tbW29PT0KIWMbG4Zh0tMz7vqnf4pTDSzLrli5cu7ceTa7nURy2xFCKRbLipUrR+7VQdGXa0VRbGpsrKmu9no8EcsrKzt72fLllkhHSsUDpdTtcrW2ttbU1DTU1nZ3d7ucTp/XK0kSIVSj0SQnJ88vWbBm7bpFixebk64JpiKEdHV1VZw7b7MNjrINY5yemblo8eKMjIwoodWEkK7OzsqKisGBgbF3hzFOtljKy8vz8vOjxCJIg4Ny5QWw9gHLosxsZvZsJjMrZkzoWNxud01VdUtzUzDSIUA8L8yZO2fRkiXx70sLBoPnzpxpbWkVxQgZhvY6L16yxDJia28MNVxPZFm22WwOu93r8QSDIiFEEPhkiyU3N3cmDB8+DswgNajccGb6fIjK9URVg0oYVQ0qYWK/HTWo+H2iS5LF67a3SeU6gBDWavQ61sgyYQ89hhpcgcHTPXuqvO/6qF1Vwz8SGNgMtnhN6gPzLEs5ZmgOI4YauvyXP3I950SnZlpgqspkQWCXKgweY5ZpdjIz9Pq1GGoIgNNBTwOlN34OXWVqoSBDvxf6ZRT3uU80FJmm8o8Kvab/n0i0S2grWuhNSgiAGb/dINfKjUzbGIbQIc0iBJPczzZVRoYKebyyGfvt8CfRf5gQZLiaEKA47ithNRBAAlOQLSzK4ot5Ru+Setv9NYPBSgWcoy6GkTlHWDbq5wEScEidEmkba1kSd5OejbjeQQOKxy7VETo6EpUCUMTr8NwsYa5FU0AIGZCae4ONotIMcE1omoALUjSzMcIi8dulKxLpH+f+cKpmqY4xy1R2Sp0+pTFirWBkSOXKBMYIAHa5xy3VjE3D4fQ0TTGDWDqmZhGASPx2qUUiPcMf8jgnWTObQ5xM5X6xTrnWQhO7wMhljq1QBJRQpSt4HNFr7pcAsDivQLgpRyjjGYNb7u/01/QHaxTaN86NA0xADZn8xm1ZX19gWicwoTBo6pYGTtve+rDvKY9Sj662OwQgm1/xb0Vvh9IM/1wk/hbvube7f9sTOAgwcjXFdHf298uTto5dviNUafSc3dX5Xbv40bXfIC0uWpS0Y3Xq/TnaEg4LABAkvlbPhWP9L1W7XyHUGaoHhIQFprv/Oe97PDb0BRpfbf/3dv/esbdGAczc8sdmPZ8hzA0S3xHrn/dbf0iofawgUriSTxf8/zxdOUL0eP8rr3V+hUXBa7NCBdq1n5/1B4ExR9y61xu4srvzp43eNwCUkIXzDJvvy/2uicv0yrbnWx5v87014kbhltQvr0n7rAaPPRIDBRTXT+pWeJXWYaVQYLP4dduy/rXUvCFULBSIW+o/a/vbkf7nHNLZsfaESEANFIDDOQ/k/XCO8WYEiFCZUAUj1sil3Zr+MI+1b/V8V1Jaw1kjnsM8AFCglBIKFAHSs0Kp+XYTm7Gr8wdtvt0jCprlsDCcfmQJhq4ypgdAyZqbN6Q/vsJyj4ANV38FPNbNMaxwy7Y2//kRt40x0oTs0WAtRpHvWgEoN2/I0M5nEcsgbpZhSYZzRU9g/9iUDMIs0rBYAwAsFiLUNkIMYlnMs5gb+h/QkJGUAgIO8QziAHBIDQCIQVyoBDRYy6LRq3QM0nCYH67akV9xlMcjypECpHDL7s7+9gLzOgaxhCqEyhgxJi59XfojWkb/WueTlPZAJBJTQ7awrEC/CAEKEm+bt2og2JqiyS3Ql/sVd4evWiGRd9GLxN/lq3NIvQbGUmgo12BdpnbukqRt3f5TEu0Z++S5pUFbsFOh0tXdNaTH3yCRa0LUGZyx2vLZZSl3CdhAqOKS+pzSAEY4ict0ywMVjnedclVCXS8FEHBeuXkzi1gAQAhnCXNytQv7gqcodSaSUyg74lVsLd4KHhsYpEnjC3SsCQHyyY4efyNCaDDY7lFsV6WQACIJ9PivyHR42ycKKh6JhHehEQp52puytEUMYinQZu/5Pn9jkiYrT1cWJN4OXy3AuOdPJ9ZTCIyZQQwABBRPtePDs/aX9GzWkuRtXslxzrFTobaIFeCT7acGX69y7jFz+Z/K+3mhYTGL+AxhroEtsEsRRNruvXjQ+t8e2XZ12Z0GicurXAnfMEAuv+zmlHt0jFkmwWbv+fP2t3v89Rgxudoyifjq3e9SGkxQDWiWbk22thgAZBrEwBq59Fn6RXXuAk+CwgrRF6zc3flTBnFGNmNL5hOFhkUIMT2++l2dP8IIROJxyA0USKI5e2Xb3u6nXXLH1Q8QoUGRWkc6FBpGG9I0pbTWdfj4wAt6Nr3UtDGguC8636LUMV7mCagBAViD9W5pwKzJ0jFJi5O3GtikJu+5U4OveuQOmfaN7z8TkQT8xEokGiBDRzVgxGI0XhgPBZAARACggNxyp1e+PMrshaYNZk0GAFiDLYetf6p1v6nQQQTQ4nsHg0ahjkRLmUXpJab1WsZEKOnwVpm5jBQ+v1B/Uxpf5JVrR/mkMUEAMrH2BQ8AQBJ3c5AMBVUHiLcz8C6LwskShyIQQ4UDAF7F6pLrgY58azQMih0uedCkycAIL07ayiNjm+9ClfM9l9yskGhHuiamBod06Vj/S7dlPKpnkwv1N2Vp5y6RtvUGmisd715w7pTJQMTbE7Cp3LwhjS9I1uTk6koBINS2e5XOiBeaZVh6H59LqAIAlJLz9t0HB34FNHziB4vT8nSlCDAF2uWrbfWdDEkBACj1yZDIqyIAAIAApHJFcwxLWayRFP8F+/4CfUkyn5vK5+fryjt9x+VxOtrrj5FNvSf32wodOi7ikuvQB9bfB5WG4VtGAF3+s+fte1I0OXo2OUdbksYXuOWtvYHGSvt7Va7dAaVpvPJJrKeg1HNs8DmnbF2T9uksoVjLmLSMycLnF+jKLHzuAetvZBKhgrWscWHSxlK6HiOWxRoA6pR6qxzv+5UI40wA0LPJenboTCRCSYv37Bg7+dCIhlLiU5wi6R95exN44DBiiwy3WDR5CJBbtlW7PpCoVGLeoGVMJcY1521vSkoE/+aGwGI+S1s0/G9voAmja7Y0IgCRtJ8YfMEpWdenfz5TKBIYo8AYLZqcfF1ZupD/bu9PCLVGzjwhUxCAT6k/aX/6sudYqXH9suTt+fqbNFhr0qQvT9nR4jlX53lpbAUjwCH3GwAoVdyybX/vM5fcu/E4PpRD7OkLNIfkT4G0+6ooOK+ZqKH+gOIBAIQYA2vhcVaQjNtPxYOeKS40LNEyRgDo9F9yKTa72OmSrDrGPEu/JF2Y4/ZWzhA1BImv3VslkSEvssN3cew0DAAElKaztqcvu4+UGG9dnrJjlmGpBuvNXMYnLJ+54NjX5d8f8TlMUA1IyNTclsRlNPkOHRv85Qnb83dmfndDxpcYxOoYcwY/75Ib8Jhi88mOS64Pu/x1FKhP8jT6TlgDH0WZwbziPvVG1w+c8tCUDgMEI0QhvFai0L4mb0WJeQNGTIF+0TzDhmqXXaZ9AJhByQBIJl3xvzGCAGTxZXnaBQzWAMB8w6rvF+/HiBMYEwDwjHGhaVOL7yDQyO/aQIAQ0g4HmlIqTWCkED8u0frntu/0i0dC/zKAGTTaFUXIlMWvMXPpV7wHTtmfvuB8c63lixszv2xgLQJjyBYWdvkjDJshQTXwBdpt9+V938imnLftrXYd8ClODDhU7gSUII08dAkQ9yXnkQrnfyl0yPeJIgUA0LPJs3XLvcq84TG6SNz90iVR6Rr+XbVz/ycsD1iEfAufe0fmF5M1GV3+WgRsob6cUuXY4PMeuSbOp5lFlkL9UgufhwBRoDxj4BkDQGhnDsUIl5rXHR6Y75RORczQyKbPN+zAV/fHuKXunuBRoPEd/JM4HBYKdWUpXDjsnSLS7T8ZJD1Xp9r08/Q7tmQ+kaWdc2LgtWrXoSBxcVgYCoBFRCTjnrmWiBeJkhYn3ZGrLcGIuSX9M6VJtwUVbypfgBFLgQwGO7r9l8Y2DCOJc/5/tmFpulAY8iIBAID2BZre6/1du79rOJ8B8dLxwVdvTf+cmUvP1BZtznrcJ9sRMAY2xSX3OyXraUevMo5XOxIKkKIpLdCX81hPgXZ4q72KK+R7aBCfJhQYudQ0flax4RMn7afGroAgQPOMK3KuduQI0GXX4V3ddQrtGJN2ajBylh0531SunYf+U+sT7f6e0BoHh1KKjatydMUCY7w149GFSbf7FU8yl6VnUyjQwWBHt3/c5ySh2Sf7Bce7afzs2YalWtacJQwVAaHKQLD95MCu7sC5KVnvCXk9I65LZSrx+JrzQAi1nrG9xiLN8pS7LHw+j/W8ZiiBgU0p1N9U7c5xk3jevGjMERbmaIsRwl7Z9m7v033BobUJLWO+Ne1zi5I2s1izJOXOCtduSWmOZK1BYMIHVRm5NDSdO98ZxFn4glEf8jhcXDK11rkOWzR5RabVOjYpQxh6waFC5f5A61Hrn23SVKgBqNjq27unx73AuH6+cWU6P4vFGq9s7/LXXnQeavDsk2nvyHFOQLG1ey8iQE6p1yMPUhqtNyXg7wtc6fDmRLgs0P5gs09xjPrcLV/8aDDYG2gsMa3N15UZuTSg1C71tnorapyHAsrIVR/ZI1m7fDUarBsUOwIj5kxZpNUyWrdk9cuONl9Vk/eoX6kfugUk1DjzTGyyljEjoCYme/CqGkTi7/U3AMDYc/B7A1coXNNNiNTbF7iiYw0Y2N5AQ8SaoCB55IFO3yUj2+cjTp9yjY9CKdjFrk5fDYcinIhCgXqUoTECAqA02OTb5+ztb/JWlJg+kc4XcljwKo5Of12N88N69wd0HAcIYu6nOG/bu7Nt+6ifaHCenskRGDMGVqR+vzLgU1oU6hp1nxglJXOLAUChQa/SIZFojScFMLA3CTjyfk6F+j1yk0wjLDxilKJl8nRMGs/ogNIA8frkvgDpGGUPjwv1bD4CRqFBt3xFGc4KsVqmSIczACBIHF6lhl4dytPQr5hcjDgAxSk1yLT36kWNRnYBiyIcXxQkdo9cNTIoBCGdgS3WIBMADhK7W64YK4jQGpCBLWRAQ0B2S3UyHRj5rZ4pEZg0NE5na5crFTJ6dY3DuXomT2DMDGIlEvSRAb/cJl87X7zQ9NiOnO+kCYVDpiauhiH7RhJ9FT96mvHyHEWUn4/94TjPX+RvoxgZ51cxrx5POURPE/sE01h5RkwzSg0T7OHidNcTGqNPeEA/SWOi70Cf5EXjTxw9zcQKJ9FfxXD7MGIZNAVvl1OZgSBgGKQZeUxADDUkoZwCZhOLxj0mQeXvFISwAZdnMqUCmMIfRvcbgpK/yVHZGjwvIo+6neIfCYSwGWUvMK5NM+Tiq82DukdbJYy6D1MljKoGlTCqGlTCqGpQCaOqQSWMqgaVMKoaVMKoalAJo6pBJYyqBpUwqhpUwqhqUAmjqkElzP8AHHfNz7f7j8UAAAAASUVORK5CYII=" /></div>
+      <div class="header-fields">
+        <div class="header-line"><div class="hlabel">DOCUMENT:</div><div class="hvalue">GMP-RIF-0425</div><div class="hlabel">REVISION:</div><div class="hvalue">3</div></div>
+        <div class="header-line"><div class="hlabel">EFFECTIVE DATE:</div><div class="hvalue">09/15/2026</div><div class="hlabel">REVISION / MODIFICATION DATE:</div><div class="hvalue">09/11/2026</div></div>
+        <div class="header-line"><div class="hlabel">CREATED BY:</div><div class="hvalue">William Rivera 02/17/2012</div><div class="hlabel">ORIGINAL APPROVAL:</div><div class="hvalue">Jorge Vazquez 02/20/2012</div></div>
+        <div class="header-line"><div class="hlabel">MODIFIED BY:</div><div class="hvalue">William Rivera 09/11/2026</div><div class="hlabel">APPROVAL DATE:</div><div class="hvalue">10/13/2026</div></div>
+        <div class="header-line"><div class="hlabel">REVISION APPROVED BY:</div><div class="hvalue">Jorge Vazquez 10/13/2026</div><div class="hlabel">REVIEWED BY:</div><div class="hvalue">Ericka Gonzalez QA Manager, &amp; Operations 10/14/2026</div></div>
+      </div>
+    </div>
+    <div class="summary" id="summary"><span class="ai-badge">AI</span><b>Inspection summary:</b> The inspection is marked Pass, while QA disposition remains pending. Recorded findings include color issues, one decay finding, and an average weight below the requested weight.</div>
+    <div class="grid" id="reportGrid">
+      <div class="report-section" data-id="shipment"><div class="section-title">1 Shipment and receiving details</div><div class="table"><div class="row"><span>Inspection date / time</span><span>2026-10-03 / 19:36</span></div><div class="row"><span>Inspector</span><span>Mariajose Garmendia</span></div><div class="row"><span>Product / origin</span><span>Tomato Round #25 / MX</span></div><div class="row"><span>P.O. / Lot</span><span>37070</span></div></div></div>
+      <div class="report-section" data-id="truck"><div class="section-title">2 Transportation and truck condition</div><div class="table"><div class="row"><span>Clean / no contamination</span><span>Pass</span></div><div class="row"><span>Security seal</span><span>Pass</span></div><div class="row"><span>Documentation</span><span>Pass</span></div><div class="row"><span>Truck temperature</span><span>67.5</span></div></div><div class="ai-text"><span class="ai-badge">AI</span>All recorded truck-condition checks passed. Temperature units were not recorded.</div></div>
+      <div class="report-section" data-id="packaging"><div class="section-title">3 Packaging condition</div><div class="table"><div class="row"><span>Packaging integrity</span><span>Pass</span></div><div class="row"><span>Labeling</span><span>Pass</span></div><div class="row"><span>Hygiene</span><span>Pass</span></div><div class="row"><span>Packaging type</span><span>Cardboard</span></div></div></div>
+      <div class="report-section" data-id="weight"><div class="section-title">4 Quantity and weight verification</div><div class="table"><div class="row"><span>Requested weight</span><span>25</span></div><div class="row" data-field="weight1"><span>Weight 1 / 2 / 3</span><span>23.3 / 23.5 / 24.09</span></div><div class="row"><span>Average</span><span>23.63</span></div><div class="row"><span>Variance</span><span>5.48%</span></div></div><div class="ai-text"><span class="ai-badge">AI</span>All three recorded weights are below the requested weight. Confirm units and tare before assigning a shortage.</div></div>
+      <div class="report-section" data-id="defects"><div class="section-title">5 Product quality and defects</div><div class="table"><div class="row" data-field="cracks"><span>Cracks</span><span>2 · 1.2821%</span></div><div class="row" data-field="decay"><span>Decay</span><span>1 · 0.641%</span></div><div class="row" data-field="color"><span>Color issue</span><span>40 · 25.641%</span></div><div class="row"><span>Total category counts</span><span>43 · 27.5641%</span></div></div><div class="ai-text"><span class="ai-badge">AI</span>Color issues are the primary recorded defect in the inspected sample; cracks and decay were also recorded.</div></div>
+      <div class="report-section" data-id="followup"><div class="section-title">6 QA review and follow-up</div><div class="table"><div class="row"><span>Inspection status</span><span>Pass</span></div><div class="row"><span>Disposition</span><span>Pending</span></div><div class="row"><span>QA reviewer</span><span>—</span></div><div class="row"><span>Final action</span><span>—</span></div></div><div class="ai-text"><span class="ai-badge">AI</span>QA review remains open. Any final disposition or corrective action must be recorded by the authorized reviewer.</div></div>
+    </div>
+
+    <div class="photos-preview" id="photosPreview"><div class="section-title">Receiving Photo Record</div><div class="photo-grid">
+      <div class="photo" data-photo-section="weight" data-photo-field="weight1"><div class="photo-img">Inspection photo</div><div class="photo-cap"><b>Case weighing</b><span class="photoAIText">AI: A case of tomatoes is shown on a scale.</span><div class="recorded"><strong>Recorded:</strong> Weight 1: 23.3.</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="decay"><div class="photo-img">Inspection photo</div><div class="photo-cap"><b>Decay · Photo 1 of 5</b><span class="photoAIText">AI: A localized dark area is visible on one tomato.</span><div class="recorded"><strong>Recorded:</strong> Decay: 1 unit (0.641%).</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="decay"><div class="photo-img">Decay photo 2</div><div class="photo-cap"><b>Decay · Photo 2 of 5</b><span class="photoAIText">AI: Close-up of a darkened area on a tomato.</span><div class="recorded"><strong>Recorded:</strong> Decay: 1 unit (0.641%).</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="decay"><div class="photo-img">Decay photo 3</div><div class="photo-cap"><b>Decay · Photo 3 of 5</b><span class="photoAIText">AI: Second angle of the recorded decay finding.</span><div class="recorded"><strong>Recorded:</strong> Decay: 1 unit (0.641%).</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="decay"><div class="photo-img">Decay photo 4</div><div class="photo-cap"><b>Decay · Photo 4 of 5</b><span class="photoAIText">AI: A close-up view of the affected surface.</span><div class="recorded"><strong>Recorded:</strong> Decay: 1 unit (0.641%).</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="decay"><div class="photo-img">Decay photo 5</div><div class="photo-cap"><b>Decay · Photo 5 of 5</b><span class="photoAIText">AI: Another inspection angle of the same recorded finding.</span><div class="recorded"><strong>Recorded:</strong> Decay: 1 unit (0.641%).</div></div></div>
+      <div class="photo" data-photo-section="defects" data-photo-field="color"><div class="photo-img">Inspection photo</div><div class="photo-cap"><b>Color variation</b><span class="photoAIText">AI: Mixed green and orange coloration is visible.</span><div class="recorded"><strong>Recorded:</strong> Color issue: 40 units (25.641%).</div></div></div>
+    </div></div>
+  </div>
+</main>
+</div>
+<script>
+let defs=[
+{id:'shipment',name:'Shipment & receiving details',layout:'half',ai:false,show:true},
+{id:'truck',name:'Transportation & truck condition',layout:'half',ai:true,show:true},
+{id:'packaging',name:'Packaging condition',layout:'half',ai:false,show:true},
+{id:'weight',name:'Quantity & weight verification',layout:'half',ai:true,show:true},
+{id:'defects',name:'Product quality & defects',layout:'half',ai:true,show:true},
+{id:'followup',name:'QA review & follow-up',layout:'full',ai:true,show:true}
+];
+const aiCopy={
+ shipment:'The receiving details are summarized from the recorded inspection fields. Review identifiers and source information before final QA release.',
+ truck:'All recorded truck-condition checks passed. Temperature units were not recorded.',
+ packaging:'All recorded packaging-condition checks passed. Packaging type was recorded as cardboard.',
+ weight:'All three recorded weights are below the requested weight. Confirm units and tare before assigning a shortage.',
+ defects:'Color issues are the primary recorded defect in the inspected sample; cracks and decay were also recorded.',
+ followup:'QA review remains open. Any final disposition or corrective action must be recorded by the authorized reviewer.'
+};
+const host=document.getElementById('sections');
+const grid=document.getElementById('reportGrid');
+const photosPreview=document.getElementById('photosPreview');
+const photoGrid=photosPreview.querySelector('.photo-grid');
+let originalPhotos=[...photoGrid.children].map(x=>x.cloneNode(true));
+const receivingDefs=defs.map(d=>({...d}));
+const receivingHTML=grid.innerHTML;
+const receivingPhotos=originalPhotos.map(x=>x.cloneNode(true));
+const formatStates={};
+let currentFormat="Receiving Format";
+
+function getDef(id){ return defs.find(d=>d.id===id); }
+function renderControls(){
+ host.innerHTML='';
+ defs.forEach(d=>{
+  const el=document.createElement('div'); el.className='card'; el.draggable=true; el.dataset.id=d.id;
+  el.innerHTML=`<div class="card-head"><div class="namewrap"><span class="drag" title="Drag to reorder">⋮⋮</span><div class="name">${d.name}</div></div><div class="section-toggle"><span>${d.show?'Show':'Hide'}</span><div class="switch ${d.show?'on':''}" data-action="show" data-id="${d.id}"></div></div></div><div class="controls"><div class="mini"><label><input type="radio" name="layout-${d.id}" data-action="layout" data-id="${d.id}" value="half" ${d.layout==='half'?'checked':''}> 2-column</label></div><div class="mini"><label><input type="radio" name="layout-${d.id}" data-action="layout" data-id="${d.id}" value="full" ${d.layout==='full'?'checked':''}> Full width</label></div></div><div class="ai"><span>Write insight with AI</span><div class="switch ${d.ai?'on':''}" data-action="ai" data-id="${d.id}"></div></div>`;
+  host.appendChild(el);
+ });
+ bindControls(); bindDrag();
+}
+function reorderPreview(){ defs.forEach(d=>{const sec=grid.querySelector(`[data-id="${d.id}"]`); if(sec) grid.appendChild(sec)}); }
+function restoreEndPhotos(){
+ photoGrid.innerHTML=''; originalPhotos.forEach(p=>photoGrid.appendChild(p.cloneNode(true)));
+ document.querySelectorAll('.field-photo').forEach(x=>x.remove());
+}
+function placePhotos(){
+ restoreEndPhotos();
+ const enabled=document.getElementById('photos').checked && originalPhotos.length>0;
+ const placement=document.querySelector('input[name="photoPlacement"]:checked').value;
+ photosPreview.classList.toggle('hidden',!enabled || placement==='section');
+ // Warehouse image fields remain present, but show a location note instead of thumbnails when photos are moved to the end.
+ grid.querySelectorAll('[data-id^="product"] [data-field="photos"] .empty-cell').forEach(cell=>{
+   cell.textContent=(enabled && placement!=='section')?'Photos are shown at the end of the report.':'';
+ });
+ if(enabled && placement==='section'){
+   originalPhotos.forEach(source=>{
+     const sec=grid.querySelector(`[data-id="${source.dataset.photoSection}"]`);
+     if(!sec || sec.classList.contains('hidden')) return;
+     const row=sec.querySelector(`[data-field="${source.dataset.photoField}"]`);
+     if(!row) return;
+     let holder=row.nextElementSibling;
+     if(!holder || !holder.classList.contains('field-photo')) {
+       holder=document.createElement('div'); holder.className='field-photo';
+       row.insertAdjacentElement('afterend',holder);
+     }
+     holder.appendChild(source.cloneNode(true));
+   });
+ }
+ document.querySelectorAll('.photoAIText').forEach(x=>x.classList.toggle('hidden',!document.getElementById('photoAI').checked));
+}
+function update(){
+ reorderPreview();
+ defs.forEach(d=>{
+   const sec=grid.querySelector(`[data-id="${d.id}"]`); if(!sec)return;
+   sec.classList.toggle('hidden',!d.show);
+   sec.classList.toggle('full',d.layout==='full');
+   sec.classList.toggle('half',d.layout==='half');
+   sec.style.gridColumn=d.layout==='full'?'1 / -1':'span 6';
+   sec.style.width='100%';
+   // AI visibility is independent from width/layout. Every section can render an AI insight.
+   let ai=sec.querySelector('.ai-text');
+   if(d.ai && !ai){
+     ai=document.createElement('div');
+     ai.className='ai-text';
+     ai.innerHTML=`<span class="ai-badge">AI</span>${aiCopy[d.id] || 'AI insight will be generated from recorded inspection data when this report is populated.'}`;
+     sec.appendChild(ai);
+   }
+   if(ai){
+     ai.classList.toggle('hidden',!d.ai);
+     ai.style.setProperty('display',d.ai?'block':'none','important');
+     if(d.ai && !ai.textContent.trim()) ai.innerHTML=`<span class="ai-badge">AI</span>${aiCopy[d.id] || 'AI insight will be generated from recorded inspection data when this report is populated.'}`;
+   }
+ });
+ placePhotos();
+}
+function bindControls(){
+ host.querySelectorAll('[data-action="show"]').forEach(x=>x.onclick=()=>{const d=getDef(x.dataset.id); d.show=!d.show; renderControls(); update();});
+ host.querySelectorAll('[data-action="ai"]').forEach(x=>x.onclick=()=>{const d=getDef(x.dataset.id); d.ai=!d.ai; renderControls(); update();});
+ host.querySelectorAll('[data-action="layout"]').forEach(x=>x.onchange=()=>{const d=getDef(x.dataset.id); d.layout=x.value; update();});
+}
+function bindDrag(){
+ let dragged=null;
+ host.querySelectorAll('.card').forEach(card=>{
+   card.addEventListener('dragstart',()=>{dragged=card;card.classList.add('dragging')});
+   card.addEventListener('dragend',()=>{card.classList.remove('dragging'); const order=[...host.querySelectorAll('.card')].map(c=>c.dataset.id); defs.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id)); dragged=null; renderControls(); update();});
+   card.addEventListener('dragover',e=>{e.preventDefault();if(!dragged||dragged===card)return;const r=card.getBoundingClientRect();host.insertBefore(dragged,e.clientY<r.top+r.height/2?card:card.nextSibling);});
+ });
+}
+renderControls(); update();
+document.getElementById('photos').onchange=update;
+document.getElementById('photoAI').onchange=update;
+document.querySelectorAll('input[name="photoPlacement"]').forEach(x=>x.onchange=update);
+
+function updateHeader(){
+ const val=document.getElementById('headerSelect').value;
+ const h=document.getElementById('reportHeader');
+ h.className='document-header '+val;
+}
+function warehouseSection(i){
+ const fields=['Product / Lot number','Quantity','Observations','Classification Number','Recommendations','Inspection Status','Buyer / Administration Comments','Disposition','Photos'];
+ return `<div class="report-section" data-id="product${i}"><div class="section-title">Product ${i}</div><div class="table">${fields.map((f,j)=>`<div class="row" data-field="${f.toLowerCase().replace(/[^a-z]+/g,'-')}"><span>${f}</span><span class="empty-cell">${f==='Photos'?'':'&nbsp;'}</span></div>`).join('')}</div></div>`;
+}
+function warehousePhotos(){
+ const counts=[1,3,2,4];
+ return counts.flatMap((count,index)=>Array.from({length:count},(_,j)=>{
+   const i=index+1;
+   const el=document.createElement('div');
+   el.className='photo';el.dataset.photoSection='product'+i;el.dataset.photoField='photos';
+   el.innerHTML=`<div class="photo-img">Product ${i} · Photo ${j+1}</div><div class="photo-cap"><b>Product ${i} · Photo ${j+1} of ${count}</b><span class="photoAIText">AI: Visual description appears here when generated.</span><div class="recorded"><strong>Recorded inspection data:</strong> Product ${i} · Photos field (image ${j+1} of ${count}).</div></div>`;
+   return el;
+ }));
+}
+function warehouseDefs(){return [1,2,3,4].map(i=>({id:'product'+i,name:'Product '+i,layout:'full',ai:false,show:true}));}
+function updateFormat(){
+ const value=document.getElementById('format').value;
+ formatStates[currentFormat]={defs:defs.map(d=>({...d})),html:grid.innerHTML,photos:originalPhotos.map(p=>p.cloneNode(true))};
+ const stored=formatStates[value];
+ if(stored){defs=stored.defs.map(d=>({...d}));grid.innerHTML=stored.html;originalPhotos=stored.photos.map(p=>p.cloneNode(true));}
+ else if(value==='Warehouse Quality Inspection'){
+   defs=warehouseDefs();grid.innerHTML=[1,2,3,4].map(warehouseSection).join('');
+   originalPhotos=warehousePhotos();
+ } else if(value==='Receiving Format'){
+   defs=receivingDefs.map(d=>({...d}));grid.innerHTML=receivingHTML;originalPhotos=receivingPhotos.map(p=>p.cloneNode(true));
+ } else {
+   defs=[1,2,3].map(i=>({id:'step'+i,name:'Movement '+i,layout:'full',ai:false,show:true}));
+   grid.innerHTML=defs.map(d=>`<div class="report-section" data-id="${d.id}"><div class="section-title">${d.name}</div><div class="table"><div class="row"><span>Item / Reference</span><span>&nbsp;</span></div><div class="row"><span>Movement details</span><span>&nbsp;</span></div><div class="row"><span>Observations</span><span>&nbsp;</span></div></div></div>`).join('');originalPhotos=[];
+ }
+ currentFormat=value;
+ document.getElementById('previewFormat').textContent=value;
+ document.getElementById('reportName').textContent=value;
+ document.getElementById('summary').classList.toggle('hidden',value!=='Receiving Format');
+ photosPreview.querySelector('.section-title').textContent=value.replace(' Format','')+' Photo Record';
+ renderControls();update();
+}
+document.getElementById('headerSelect').onchange=updateHeader;
+document.getElementById('format').onchange=updateFormat;
+updateHeader(); updateFormat();
+
+document.getElementById('reset').onclick=()=>location.reload();
+document.getElementById('save').onclick=()=>{const b=document.getElementById('save');b.textContent='Saved ✓';setTimeout(()=>b.textContent='Save layout',1300)};
+</script>
+</body></html>
